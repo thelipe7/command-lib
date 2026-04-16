@@ -4,7 +4,7 @@ plugins {
     id("io.freefair.lombok") version "9.2.0"
 }
 
-group = "net.haven"
+group = "net.thelipe"
 version = "1.0.0"
 
 repositories {
