@@ -1,3 +1,12 @@
+/*
+ * This source file is part of command-lib.
+ *
+ * Copyright (c) 2026 thelipe7
+ *
+ * Licensed under the Apache License, Version 2.0.
+ * See the LICENSE file in the project root for license information.
+ */
+
 package net.thelipe.command.util;
 
 import java.lang.reflect.Array;
@@ -5,8 +14,9 @@ import java.util.Iterator;
 import java.util.Locale;
 
 /**
- * Select methods copied from Apache Commons to avoid importing entire lib
- * No changes to logic
+ * Minimal subset of Apache Commons Lang utilities used internally by the command library.
+ *
+ * <p>This class exists to avoid pulling the full dependency for a few string and array helpers.</p>
  */
 class ApacheCommonsLangUtil {
 

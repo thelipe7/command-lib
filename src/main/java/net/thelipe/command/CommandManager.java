@@ -1,3 +1,12 @@
+/*
+ * This source file is part of command-lib.
+ *
+ * Copyright (c) 2026 thelipe7
+ *
+ * Licensed under the Apache License, Version 2.0.
+ * See the LICENSE file in the project root for license information.
+ */
+
 package net.thelipe.command;
 
 import com.google.common.collect.ImmutableList;
@@ -34,6 +43,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Central registry for commands, argument resolvers, and tab completers.
+ *
+ * <p>Create a single instance during plugin startup, then use it to register command
+ * classes and any custom parsing or completion behavior needed by your commands.</p>
+ */
 @Getter
 public class CommandManager {
 
@@ -49,6 +64,13 @@ public class CommandManager {
     private final Map<String, Function<CommandSender, Collection<String>>> byIdTabCompleter = new HashMap<>();
     private final Map<Class<?>, BiFunction<CommandSender, Argument, Collection<String>>> byClassTabCompleter = new HashMap<>();
 
+    /**
+     * Creates a new command manager instance.
+     *
+     * @param plugin the owning plugin
+     * @param autoRegisterTabCompleteManager whether the default async tab completion listener should be registered automatically
+     * @throws IllegalStateException if a manager instance has already been created
+     */
     public CommandManager(JavaPlugin plugin, boolean autoRegisterTabCompleteManager) {
         if (instance != null) {
             throw new IllegalStateException("CommandManager has already been initialized.");
@@ -63,6 +85,11 @@ public class CommandManager {
         registerDefaults();
     }
 
+    /**
+     * Replaces the current tab completion manager.
+     *
+     * @param tabCompleteManager the new tab completion manager
+     */
     public void setTabCompleteManager(CommandTabCompleteManager tabCompleteManager) {
         if (this.tabCompleteManager != null) {
             HandlerList.unregisterAll(tabCompleteManager);
@@ -71,6 +98,12 @@ public class CommandManager {
         this.tabCompleteManager = tabCompleteManager;
     }
 
+    /**
+     * Registers a command using metadata declared through annotations on the command class.
+     *
+     * @param customCommand the command instance to register
+     * @return the registered Bukkit command wrapper
+     */
     public RegisteredCommand registerCommand(CustomCommand customCommand) {
         Class<?> clazz = customCommand.getClass();
 
@@ -81,6 +114,14 @@ public class CommandManager {
         return registerCommand(customCommand, permission == null ? null : permission.value(), commandAnnotation.value());
     }
 
+    /**
+     * Registers a command using explicit names and permission values.
+     *
+     * @param customCommand the command instance to register
+     * @param permission the base permission for the command, or {@code null} for no permission check
+     * @param names the primary name followed by any aliases
+     * @return the registered Bukkit command wrapper
+     */
     public RegisteredCommand registerCommand(CustomCommand customCommand, String permission, String... names) {
         String commandName = names[0].toLowerCase();
         List<String> commandAliases = Stream.of(names).map(String::toLowerCase).filter(name -> !name.equals(commandName)).collect(Collectors.toList());
@@ -98,18 +139,42 @@ public class CommandManager {
         return registeredCommand;
     }
 
+    /**
+     * Registers a custom argument resolver for a specific parameter type.
+     *
+     * @param clazz the parameter type supported by the resolver
+     * @param argumentResolver the resolver implementation
+     * @param <T> the argument type
+     */
     public <T> void registerArgumentResolver(Class<T> clazz, ArgumentResolver<T> argumentResolver) {
         argumentResolvers.put(clazz, argumentResolver);
     }
 
+    /**
+     * Registers a tab completer that can be referenced from {@code @TabComplete} using an id such as {@code @players}.
+     *
+     * @param id the completer id
+     * @param resolver the completion resolver
+     */
     public void registerTabCompleter(String id, Function<CommandSender, Collection<String>> resolver) {
         byIdTabCompleter.put(id, resolver);
     }
 
+    /**
+     * Registers a tab completer for a specific parameter type.
+     *
+     * @param clazz the parameter type
+     * @param resolver the completion resolver
+     */
     public void registerTabCompleter(Class<?> clazz, BiFunction<CommandSender, Argument, Collection<String>> resolver) {
         byClassTabCompleter.put(clazz, resolver);
     }
 
+    /**
+     * Unregisters a previously registered command and all of its aliases.
+     *
+     * @param registeredCommand the command to unregister
+     */
     public void unregisterCommand(RegisteredCommand registeredCommand) {
         for (String name : registeredCommand.getNames()) {
             commands.remove(name);
@@ -122,14 +187,29 @@ public class CommandManager {
         }
     }
 
+    /**
+     * Removes the argument resolver associated with a parameter type.
+     *
+     * @param clazz the parameter type
+     */
     public void unregisterArgumentResolver(Class<?> clazz) {
         argumentResolvers.remove(clazz);
     }
 
+    /**
+     * Removes a tab completer registered by id.
+     *
+     * @param id the completer id
+     */
     public void unregisterTabCompleter(String id) {
         byIdTabCompleter.remove(id);
     }
 
+    /**
+     * Removes a tab completer registered for a parameter type.
+     *
+     * @param clazz the parameter type
+     */
     public void unregisterTabCompleter(Class<?> clazz) {
         byClassTabCompleter.remove(clazz);
     }

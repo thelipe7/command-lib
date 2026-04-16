@@ -1,3 +1,12 @@
+/*
+ * This source file is part of command-lib.
+ *
+ * Copyright (c) 2026 thelipe7
+ *
+ * Licensed under the Apache License, Version 2.0.
+ * See the LICENSE file in the project root for license information.
+ */
+
 package net.thelipe.command;
 
 import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
@@ -11,12 +20,25 @@ import org.bukkit.event.Listener;
 import java.util.*;
 import java.util.function.BiFunction;
 
+/**
+ * Async tab completion listener for commands registered through {@link CommandManager}.
+ */
 public class CommandTabCompleteManager implements Listener {
 
+    /**
+     * Creates and registers the listener for the given manager.
+     *
+     * @param commandManager the owning command manager
+     */
     public CommandTabCompleteManager(CommandManager commandManager) {
         Bukkit.getPluginManager().registerEvents(this, commandManager.getPlugin());
     }
 
+    /**
+     * Handles Paper async tab completion events for registered commands.
+     *
+     * @param event the async tab completion event
+     */
     @EventHandler
     public void onAsyncTabComplete(AsyncTabCompleteEvent event) {
         CommandSender sender = event.getSender();
@@ -33,6 +55,13 @@ public class CommandTabCompleteManager implements Listener {
         }
     }
 
+    /**
+     * Resolves all completions for a raw command buffer.
+     *
+     * @param sender the sender requesting completions
+     * @param buffer the raw command buffer
+     * @return the computed completions, or {@code null} when the command is not managed by this library
+     */
     public List<String> getAllCompletions(CommandSender sender, String buffer) {
         String[] args = CommandUtil.SPACE.split(buffer, -1);
 
@@ -51,6 +80,14 @@ public class CommandTabCompleteManager implements Listener {
         return completer;
     }
 
+    /**
+     * Resolves completions produced by argument-level tab completers.
+     *
+     * @param sender the sender requesting completions
+     * @param command the command being completed
+     * @param args the split command arguments
+     * @return the matching argument completions
+     */
     public Collection<String> getExecutorCompletion(CommandSender sender, RegisteredCommand command, String[] args) {
         Collection<String> completion = new ArrayList<>();
 
@@ -91,6 +128,14 @@ public class CommandTabCompleteManager implements Listener {
         return completion;
     }
 
+    /**
+     * Resolves subcommand name completions for the current argument position.
+     *
+     * @param sender the sender requesting completions
+     * @param command the command being completed
+     * @param args the split command arguments
+     * @return the matching subcommand fragments
+     */
     public Collection<String> getCommandsForCompletion(CommandSender sender, RegisteredCommand command, String[] args) {
         Collection<String> commands = new ArrayList<>();
 

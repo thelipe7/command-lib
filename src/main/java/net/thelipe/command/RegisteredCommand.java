@@ -1,3 +1,12 @@
+/*
+ * This source file is part of command-lib.
+ *
+ * Copyright (c) 2026 thelipe7
+ *
+ * Licensed under the Apache License, Version 2.0.
+ * See the LICENSE file in the project root for license information.
+ */
+
 package net.thelipe.command;
 
 import lombok.Getter;
@@ -12,6 +21,12 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Method;
 import java.util.*;
 
+/**
+ * Bukkit command wrapper generated for a {@link CustomCommand} instance.
+ *
+ * <p>This type manages default, unknown, and subcommand executors and delegates
+ * runtime execution to the appropriate handler method.</p>
+ */
 @Getter
 public class RegisteredCommand extends org.bukkit.command.Command {
 
@@ -31,6 +46,15 @@ public class RegisteredCommand extends org.bukkit.command.Command {
 
     private final CommandManager commandManager;
 
+    /**
+     * Creates a new registered command wrapper.
+     *
+     * @param name the primary command name
+     * @param aliases the command aliases
+     * @param permission the base permission, or {@code null} for no permission check
+     * @param customCommand the command implementation instance
+     * @param commandManager the owning command manager
+     */
     public RegisteredCommand(String name, List<String> aliases, String permission, CustomCommand customCommand, CommandManager commandManager) {
         super(name, "", "/" + name, aliases);
 
@@ -49,6 +73,14 @@ public class RegisteredCommand extends org.bukkit.command.Command {
         loadExecutors();
     }
 
+    /**
+     * Dispatches command execution to the matching handler method.
+     *
+     * @param sender the command sender
+     * @param label the label used to invoke the command
+     * @param literalArgs the raw command arguments
+     * @return always {@code false} so Bukkit does not emit its own usage message
+     */
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String @NotNull [] literalArgs) {
         if (permission != null && !sender.hasPermission(permission)) {

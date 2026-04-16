@@ -1,3 +1,12 @@
+/*
+ * This source file is part of command-lib.
+ *
+ * Copyright (c) 2026 thelipe7
+ *
+ * Licensed under the Apache License, Version 2.0.
+ * See the LICENSE file in the project root for license information.
+ */
+
 package net.thelipe.command;
 
 import lombok.Getter;
@@ -21,6 +30,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Runtime representation of a single command handler method.
+ *
+ * <p>A command executor wraps the reflected method, its resolved argument metadata,
+ * permission requirements, sender restrictions, and tab completion rules.</p>
+ */
 @Getter
 public class CommandExecutor {
 
@@ -38,6 +53,14 @@ public class CommandExecutor {
 
     private final Map<Integer, BiFunction<CommandSender, Argument, Collection<String>>> tabCompleter = new HashMap<>();
 
+    /**
+     * Creates an executor with an explicit permission override.
+     *
+     * @param name the handler name
+     * @param method the reflected command method
+     * @param command the owning registered command
+     * @param permission the permission required to use this executor
+     */
     public CommandExecutor(String name, Method method, RegisteredCommand command, String permission) {
         firstName = name;
         this.names = Collections.singletonList(name);
@@ -50,10 +73,24 @@ public class CommandExecutor {
         loadTabCompleter();
     }
 
+    /**
+     * Creates an executor for a single handler name.
+     *
+     * @param name the handler name
+     * @param method the reflected command method
+     * @param command the owning registered command
+     */
     public CommandExecutor(String name, Method method, RegisteredCommand command) {
         this(new String[] {name}, method, command);
     }
 
+    /**
+     * Creates an executor for one or more handler names.
+     *
+     * @param names the handler names and aliases
+     * @param method the reflected command method
+     * @param command the owning registered command
+     */
     public CommandExecutor(String[] names, Method method, RegisteredCommand command) {
         firstName = names[0].toLowerCase();
         this.names = Stream.of(names).map(String::toLowerCase).collect(Collectors.toList());
@@ -68,6 +105,13 @@ public class CommandExecutor {
         loadTabCompleter();
     }
 
+    /**
+     * Executes the handler against the provided sender and raw arguments.
+     *
+     * @param sender the command sender
+     * @param label the command label used for usage feedback
+     * @param args the raw arguments to resolve
+     */
     public void execute(CommandSender sender, String label, String[] args) {
         if (!senderType.equals(SenderType.ALL)) {
             if (sender instanceof ConsoleCommandSender && senderType.equals(SenderType.PLAYER)) {
@@ -127,6 +171,14 @@ public class CommandExecutor {
         }
     }
 
+    /**
+     * Validates whether the provided raw arguments match the handler signature.
+     *
+     * @param sender the command sender
+     * @param label the command label used for usage feedback
+     * @param args the raw arguments
+     * @return {@code true} when the input can be executed by this handler
+     */
     public boolean checkArguments(CommandSender sender, String label, String[] args) {
         if (args.length > 0 && arguments.isEmpty()) {
             MessageProvider.getInstance().invalidUsage(sender, label + invalidUsageFormat);
@@ -153,6 +205,11 @@ public class CommandExecutor {
         return true;
     }
 
+    /**
+     * Returns the last declared command argument.
+     *
+     * @return the last argument metadata
+     */
     public Argument getLastArgument() {
         return arguments.getLast();
     }
