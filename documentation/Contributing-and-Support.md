@@ -64,10 +64,10 @@ Recommended pull request checklist:
 This repository uses:
 
 - `README.md` as the public landing page
-- `wiki/` as the GitHub Wiki content source
+- `documentation/` as the GitHub Wiki content source
 - issue templates for support intake quality
 
-If you add public behavior, update the relevant wiki page together with the code.
+If you add public behavior, update the relevant documentation page together with the code.
 
 ## 🧠 Practical Guidance
 

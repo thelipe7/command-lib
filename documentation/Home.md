@@ -1,4 +1,4 @@
-# 📚 command-lib Wiki
+# 📚 command-lib Documentation
 
 Welcome to the official `command-lib` documentation.
 
@@ -29,9 +29,9 @@ Welcome to the official `command-lib` documentation.
 ## ✅ Requirements
 
 - Java 21
-- Paper `1.21.11`
+- Paper `1.20+`
 
-Other Bukkit-compatible servers or versions may work, but this repository currently documents and targets Paper `1.21.11`.
+Other Bukkit-compatible servers may work, but the current repository targets and documents Paper `1.20+`.
 
 ## 🚀 Quick Example
 

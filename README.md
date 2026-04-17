@@ -1,40 +1,75 @@
 <div align="center">
   <img src="icon.svg" width="120" alt="command-lib icon">
+
   <h1>command-lib</h1>
-  <p><strong>Annotation-driven commands for Paper plugins.</strong></p>
-  <p>Runtime registration, typed arguments, subcommands, and async tab completion without large <code>plugin.yml</code> command sections.</p>
+
+  <p><em>Annotation-driven commands for Paper plugins.</em></p>
+
+  <p>Runtime registration, typed arguments, subcommands, permissions, and async tab completion without large <code>plugin.yml</code> command sections.</p>
+
+  <p>
+    <a href="https://github.com/thelipe7/command-lib/commits/main">
+      <img alt="Last commit" src="https://img.shields.io/github/last-commit/thelipe7/command-lib?style=flat-square&logo=github">
+    </a>
+    <a href="https://github.com/thelipe7/command-lib/issues">
+      <img alt="GitHub issues" src="https://img.shields.io/github/issues/thelipe7/command-lib?style=flat-square&logo=github">
+    </a>
+    <a href="https://github.com/thelipe7/command-lib/stargazers">
+      <img alt="GitHub stars" src="https://img.shields.io/github/stars/thelipe7/command-lib?style=flat-square&logo=github">
+    </a>
+    <a href="https://github.com/thelipe7/command-lib/blob/main/LICENSE">
+      <img alt="License" src="https://img.shields.io/github/license/thelipe7/command-lib?style=flat-square">
+    </a>
+  </p>
+
+
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/built-with/java21_vector.svg)](https://adoptium.net/pt-BR/temurin/releases?version=21&os=any&arch=any)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/built-with/gradle_vector.svg)](https://gradle.org/)
+
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/available/github_vector.svg)](https://github.com/thelipe7/command-lib)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/project/command-lib)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/available/hangar_vector.svg)](https://hangar.papermc.io/TheLipe/command-lib)
+
+  <p>
+    <a href="https://github.com/thelipe7/command-lib/wiki">Documentation</a>
+    |
+    <a href="https://github.com/thelipe7/command-lib/issues">Suport</a>
+    |
+    <a href="https://github.com/thelipe7/command-lib/blob/main/CONTRIBUTING.md">Contributing</a>
+    |
+    <a href="https://github.com/thelipe7/command-lib/blob/main/LICENSE">License</a>
+  </p>
 </div>
 
-<p align="center">
-  <a href="https://github.com/thelipe7/command-lib/wiki">📚 Wiki</a>
-  ·
-  <a href="https://github.com/thelipe7/command-lib/issues">🐛 Issues</a>
-  ·
-  <a href="https://github.com/thelipe7/command-lib/blob/main/CONTRIBUTING.md">🤝 Contributing</a>
-  ·
-  <a href="https://github.com/thelipe7/command-lib/blob/main/LICENSE">📄 License</a>
-</p>
+---
 
-## ✨ Highlights
+## Overview
 
-- Annotation-based command classes
-- Runtime registration through Bukkit's `CommandMap`
-- Default handlers, subcommands, and unknown fallbacks
-- Built-in argument resolvers for common Paper and Bukkit types
-- Async tab completion support on Paper
-- Custom argument resolvers and custom tab completers
-- Optional and joined arguments
+`command-lib` is a lightweight command framework for Paper plugins built around annotations and runtime registration.
 
-## ✅ Requirements
+It keeps command code direct while covering the repetitive parts that usually spread across plugin projects:
 
-- Java 21
-- Paper `1.21.11`
+- command registration without large `plugin.yml` command sections
+- typed argument parsing for common Bukkit and Paper types
+- subcommands, default handlers, and unknown handlers
+- permission handling at class and method level
+- async tab completion support on Paper
+- custom argument resolvers and custom tab completers
 
-Other Bukkit-compatible servers or versions may work, but the current codebase targets and documents Paper `1.21.11`.
+## Requirements
 
-## 📦 Installation
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/supported/paper_vector.svg)](https://papermc.io/software/paper/)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/supported/purpur_vector.svg)](https://purpurmc.org/)
 
-### Gradle Kotlin DSL
+Other Bukkit-compatible servers may work, but the current repository targets and documents Paper `1.20+`.
+
+## Installation
+
+> [!NOTE]\
+> Replace `TAG` with a Git tag, release version, or commit hash from this repository.
+
+<details open>
+<summary>Gradle (Kotlin DSL)</summary>
 
 ```kotlin
 repositories {
@@ -46,8 +81,10 @@ dependencies {
     implementation("com.github.thelipe7:command-lib:TAG")
 }
 ```
+</details>
 
-### Gradle Groovy DSL
+<details>
+<summary>Gradle (Groovy DSL)</summary>
 
 ```groovy
 repositories {
@@ -59,8 +96,10 @@ dependencies {
     implementation 'com.github.thelipe7:command-lib:TAG'
 }
 ```
+</details>
 
-### Maven
+<details>
+<summary>Maven</summary>
 
 ```xml
 <repositories>
@@ -78,12 +117,11 @@ dependencies {
     </dependency>
 </dependencies>
 ```
+</details>
 
-Replace `TAG` with a Git tag, release version, or commit hash from this repository.
+## Quick Start
 
-## 🚀 Quick Start
-
-Create the manager in your plugin:
+Create a manager in your plugin:
 
 ```java
 public final class ExamplePlugin extends JavaPlugin {
@@ -97,20 +135,9 @@ public final class ExamplePlugin extends JavaPlugin {
 }
 ```
 
-Then create a command class:
+Then define a command class:
 
 ```java
-import net.thelipe.command.CustomCommand;
-import net.thelipe.command.annotation.Command;
-import net.thelipe.command.annotation.Default;
-import net.thelipe.command.annotation.Name;
-import net.thelipe.command.annotation.Permission;
-import net.thelipe.command.annotation.SubCommand;
-import net.thelipe.command.annotation.TabComplete;
-import net.thelipe.command.annotation.Unknown;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 @Command({"warp", "warps"})
 @Permission("example.warp")
 public final class WarpCommand extends CustomCommand {
@@ -135,79 +162,46 @@ public final class WarpCommand extends CustomCommand {
 }
 ```
 
-## 🧭 Documentation
+## Documentation
 
-The README is intentionally compact. Full documentation lives in the wiki.
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/documentation/ghpages_vector.svg)](https://github.com/thelipe7/command-lib/wiki)
 
-- [📚 Wiki Home](https://github.com/thelipe7/command-lib/wiki)
-- [⚙️ Installation](https://github.com/thelipe7/command-lib/wiki/Installation)
-- [🚀 Getting Started](https://github.com/thelipe7/command-lib/wiki/Getting-Started)
-- [🧩 Defining Commands](https://github.com/thelipe7/command-lib/wiki/Defining-Commands)
-- [🔎 Arguments and Resolvers](https://github.com/thelipe7/command-lib/wiki/Arguments-and-Resolvers)
-- [⌨️ Tab Completion](https://github.com/thelipe7/command-lib/wiki/Tab-Completion)
-- [🔐 Permissions and Messages](https://github.com/thelipe7/command-lib/wiki/Permissions-and-Messages)
-- [🧪 API Reference](https://github.com/thelipe7/command-lib/wiki/API-Reference)
-- [🛠️ Troubleshooting](https://github.com/thelipe7/command-lib/wiki/Troubleshooting)
-
-## 🧠 Built-In Support
-
-Built-in argument resolvers include:
-
-- `String`
-- numeric primitives and wrappers
-- `boolean`
-- `Duration`
-- `Player`
-- enums
-- `Enchantment`
-- `ItemStack`
-- `GameMode`
-
-Built-in tab completion support includes:
-
-- `Player`
-- `boolean`
-- `Duration`
-- enums
-- `Enchantment`
-- `ItemStack`
-
-For implementation details and extension examples, use the wiki:
-
+- [Installation](https://github.com/thelipe7/command-lib/wiki/Installation)
+- [Getting Started](https://github.com/thelipe7/command-lib/wiki/Getting-Started)
+- [Defining Commands](https://github.com/thelipe7/command-lib/wiki/Defining-Commands)
 - [Arguments and Resolvers](https://github.com/thelipe7/command-lib/wiki/Arguments-and-Resolvers)
 - [Tab Completion](https://github.com/thelipe7/command-lib/wiki/Tab-Completion)
+- [Permissions and Messages](https://github.com/thelipe7/command-lib/wiki/Permissions-and-Messages)
 - [API Reference](https://github.com/thelipe7/command-lib/wiki/API-Reference)
+- [Troubleshooting](https://github.com/thelipe7/command-lib/wiki/Troubleshooting)
 
-## 🏗️ Real-World Usage
-
-The library is already being used in larger plugin codebases with:
-
-- custom argument resolvers for domain objects
-- project-specific tab completers
-- class-level and method-level permission structures
-- manual unknown/help output handlers
-
-That usage pattern is reflected throughout the wiki documentation.
-
-## 🆘 Support
+## Support
 
 Use the issue templates for:
 
-- `Bug Report` for bugs, incompatibilities, and regressions
-- `Feature Request` for improvements and new ideas
-- `Question` for usage and integration questions
+- bugs and regressions
+- feature requests
+- usage questions
 
-Before opening an issue, check the wiki:
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/documentation/issues_vector.svg)](https://github.com/thelipe7/command-lib/issues)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/social/discord-singular_vector.svg)](https://discord.com/users/842438483686719488)
 
-- [Wiki Home](https://github.com/thelipe7/command-lib/wiki)
-- [Troubleshooting](https://github.com/thelipe7/command-lib/wiki/Troubleshooting)
+## Contributing
 
-## 🤝 Contributing
+See [CONTRIBUTING](https://github.com/thelipe7/command-lib?tab=contributing-ov-file) for contribution guidelines and review expectations.
 
-Issues and pull requests are welcome.
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/documentation/pull-requests_vector.svg)](https://github.com/thelipe7/command-lib/pulls)
 
-See [CONTRIBUTING.md](https://github.com/thelipe7/command-lib/blob/main/CONTRIBUTING.md) for contribution guidelines.
+## Sponsors
 
-## 📄 License
+Thank you so much for considering helping me, I truly appreciate it!
 
-This project is licensed under the Apache License 2.0. See [LICENSE](https://github.com/thelipe7/command-lib/blob/main/LICENSE) for details.
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/donate/ghsponsors-singular_vector.svg)](https://github.com/sponsors/thelipe7)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/donate/buymeacoffee-singular_vector.svg)](https://buymeacoffee.com/thelipe7)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges/assets/cozy/donate/paypal-singular_vector.svg)](https://www.paypal.com/donate/?hosted_button_id=3PB97S5NAJMYA)
+
+## License
+
+This project is licensed under the Apache License 2.0.
+
+See [LICENSE](https://github.com/thelipe7/command-lib/blob/main/LICENSE) for details.

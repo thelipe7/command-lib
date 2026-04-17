@@ -11,7 +11,7 @@ Thanks for considering a contribution.
 
 ## Before You Start
 
-- check the [wiki](https://github.com/thelipe7/command-lib/wiki) for existing guidance
+- check the [documentation](https://github.com/thelipe7/command-lib/wiki) for existing guidance
 - search existing issues and pull requests before opening a new one
 - keep changes focused on one problem or improvement at a time
 
@@ -27,7 +27,7 @@ Thanks for considering a contribution.
 - describe the problem and the change clearly
 - link related issues when applicable
 - include usage examples when the change affects public behavior
-- update the relevant wiki page when public behavior changes
+- update the relevant documentation page when public behavior changes
 - keep formatting and naming consistent with the existing codebase
 
 ## Documentation Changes
@@ -40,7 +40,7 @@ If you change:
 - permission or message behavior
 - public examples or setup steps
 
-update the matching page in the wiki together with the code change.
+update the matching page in the documentation together with the code change.
 
 ## Support Scope
 
