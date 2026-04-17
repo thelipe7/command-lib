@@ -10,10 +10,7 @@
 package net.thelipe.command;
 
 import com.google.common.collect.ImmutableList;
-import io.papermc.paper.registry.RegistryAccess;
-import io.papermc.paper.registry.RegistryKey;
 import lombok.Getter;
-import lombok.Setter;
 import net.thelipe.command.annotation.Command;
 import net.thelipe.command.annotation.Permission;
 import net.thelipe.command.argument.Argument;
@@ -34,10 +31,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.time.Duration;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -92,7 +86,7 @@ public class CommandManager {
      */
     public void setTabCompleteManager(CommandTabCompleteManager tabCompleteManager) {
         if (this.tabCompleteManager != null) {
-            HandlerList.unregisterAll(tabCompleteManager);
+            HandlerList.unregisterAll(this.tabCompleteManager);
         }
 
         this.tabCompleteManager = tabCompleteManager;
@@ -356,7 +350,7 @@ public class CommandManager {
                 CommandUtil.getEnumNames((Class<? extends Enum<?>>) argument.getClazz())));
 
         registerArgumentResolver(Enchantment.class, (sender, input, argument) -> {
-            Enchantment enchantment = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(NamespacedKey.minecraft(input));
+            Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(input));
             if (enchantment == null) {
                 CommandUtil.sendMessage(sender, "<red>Encantamento não encontrado.");
                 return new ArgumentResult<>(null, ResultStatus.FAIL);
@@ -366,7 +360,7 @@ public class CommandManager {
         });
 
         registerTabCompleter(Enchantment.class, (sender, argument) ->
-                RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).stream().map(enchantment -> enchantment.getKey().getKey()).toList());
+                Arrays.stream(Enchantment.values()).map(enchantment -> enchantment.getKey().getKey()).toList());
 
         registerArgumentResolver(ItemStack.class, (sender, input, argument) -> {
             String[] split = input.split(":");
