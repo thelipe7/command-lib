@@ -302,7 +302,8 @@ public class CommandExecutor {
         boolean isOptional = parameter.getAnnotation(Optional.class) != null;
         boolean isJoin = parameter.getAnnotation(Join.class) != null;
 
-        if (position == parameters.length - 1 && (isOptional || isJoin))
+        int lastArgumentPosition = parameters.length - 2;
+        if (position != lastArgumentPosition && (isOptional || isJoin))
             throw new RuntimeException("@Optional and @Join annotation can only be used at the end of arguments");
 
         return new Argument(name, clazz, position, isOptional, isJoin);
