@@ -21,7 +21,7 @@ import org.bukkit.command.CommandSender;
  * to customize validation and permission messages.</p>
  */
 public abstract class MessageProvider {
-    
+
     @Getter
     @Setter
     private static MessageProvider instance = new MessageProvider() {};
@@ -32,7 +32,16 @@ public abstract class MessageProvider {
      * @param sender the sender that failed the permission check
      */
     public void noPermission(CommandSender sender) {
-        CommandUtil.sendMessage(sender, "<red>Comando não encontrado.");
+        CommandUtil.sendMessage(sender, "<red>You do not have permission to use this command.");
+    }
+
+    /**
+     * Called when a sender does not have permission to execute a subcommand.
+     *
+     * @param sender the sender that failed the permission check
+     */
+    public void noPermissionSubcommand(CommandSender sender) {
+        CommandUtil.sendMessage(sender, "<red>You do not have permission to use this command.");
     }
 
     /**
@@ -42,7 +51,7 @@ public abstract class MessageProvider {
      * @param usage the correct usage string
      */
     public void invalidUsage(CommandSender sender, String usage) {
-        CommandUtil.sendMessage(sender, "<red>Utilize: {usage}"
+        CommandUtil.sendMessage(sender, "<red>Usage: {usage}"
                 .replace("{usage}", "/" + usage));
     }
 
@@ -52,7 +61,7 @@ public abstract class MessageProvider {
      * @param sender the sender that provided the argument
      */
     public void playerNotFound(CommandSender sender) {
-        CommandUtil.sendMessage(sender, "<red>Jogador não encontrado.");
+        CommandUtil.sendMessage(sender, "<red>Player not found.");
     }
 
     /**
@@ -61,7 +70,7 @@ public abstract class MessageProvider {
      * @param sender the invalid sender
      */
     public void onlyPlayer(CommandSender sender) {
-        CommandUtil.sendMessage(sender, "<red>Este comando só pode ser executado por jogadores.");
+        CommandUtil.sendMessage(sender, "<red>This command can only be used by players.");
     }
 
     /**
@@ -70,7 +79,7 @@ public abstract class MessageProvider {
      * @param sender the invalid sender
      */
     public void onlyConsole(CommandSender sender) {
-        CommandUtil.sendMessage(sender, "<red>Este comando só pode ser executado pelo console.");
+        CommandUtil.sendMessage(sender, "<red>This command can only be used from the console.");
     }
 
     /**
@@ -79,7 +88,7 @@ public abstract class MessageProvider {
      * @param sender the sender that provided the argument
      */
     public void invalidValue(CommandSender sender) {
-        CommandUtil.sendMessage(sender, "<red>O valor inserido é inválido.");
+        CommandUtil.sendMessage(sender, "<red>Invalid value.");
     }
 
     /**
@@ -88,7 +97,7 @@ public abstract class MessageProvider {
      * @param sender the sender that provided the argument
      */
     public void invalidDuration(CommandSender sender) {
-        CommandUtil.sendMessage(sender, "<red>A duração inserida é invalida, utilize o formato: 1d13h15m23s.");
+        CommandUtil.sendMessage(sender, "<red>Invalid duration. Use the format: 1d13h15m23s.");
     }
-    
+
 }
