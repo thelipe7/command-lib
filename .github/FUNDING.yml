@@ -1,0 +1,22 @@
+# Supported platforms:
+# - community_bridge: PROJECT-NAME
+# - github: [USERNAME, USERNAME, USERNAME, USERNAME]
+# - issuehunt: USERNAME
+# - ko_fi: USERNAME
+# - liberapay: USERNAME
+# - open_collective: USERNAME
+# - patreon: USERNAME
+# - tidelift: PLATFORM-NAME/PACKAGE-NAME
+#   JavaScript = npm
+#   Python = pypi
+#   Ruby = rubygems
+#   Java = maven
+#   PHP = packagist
+#   C# = nuget
+# - polar: USERNAME
+# - buy_me_a_coffee: USERNAME
+# - thanks_dev: u/gh/USERNAME
+# - custom: [LINK1, LINK2, LINK3, LINK4]
+
+github: [thelipe7]
+custom: []

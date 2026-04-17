@@ -10,6 +10,8 @@
   ·
   <a href="https://github.com/thelipe7/command-lib/issues">🐛 Issues</a>
   ·
+  <a href="https://github.com/thelipe7/command-lib/blob/main/CONTRIBUTING.md">🤝 Contributing</a>
+  ·
   <a href="https://github.com/thelipe7/command-lib/blob/main/LICENSE">📄 License</a>
 </p>
 
@@ -204,7 +206,7 @@ Before opening an issue, check the wiki:
 
 Issues and pull requests are welcome.
 
-If you change public behavior, update the relevant wiki page together with the code.
+See [CONTRIBUTING.md](https://github.com/thelipe7/command-lib/blob/main/CONTRIBUTING.md) for contribution guidelines.
 
 ## 📄 License
 
