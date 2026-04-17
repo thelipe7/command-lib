@@ -1,0 +1,83 @@
+name: Bug Report
+description: Report bugs, incompatibilities, regressions, or unexpected behavior.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for bugs, incompatibilities, regressions, parsing issues, tab completion problems, or version-specific breakage.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe the problem in one or two clear sentences.
+      placeholder: The command fails to resolve Player arguments on Paper 1.21.11 when used from aliases.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead?
+    validations:
+      required: true
+  - type: input
+    id: library_version
+    attributes:
+      label: command-lib version
+      description: Git tag, release, or commit hash.
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: server_software
+    attributes:
+      label: Server software and version
+      description: Paper, Spigot, Bukkit, Purpur, etc.
+      placeholder: Paper 1.21.11
+    validations:
+      required: true
+  - type: input
+    id: java_version
+    attributes:
+      label: Java version
+      placeholder: Java 21
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Provide a minimal reproduction sequence.
+      placeholder: |
+        1. Register a command with ...
+        2. Execute /example ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: sample_code
+    attributes:
+      label: Relevant command code
+      description: Paste the smallest command example that reproduces the issue.
+      render: java
+  - type: textarea
+    id: logs
+    attributes:
+      label: Stack trace or logs
+      description: Paste any relevant console output.
+      render: text
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Anything else that may help diagnose the issue.

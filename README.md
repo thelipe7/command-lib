@@ -1,41 +1,45 @@
-# command-lib
+<div align="center">
+  <img src="icon.svg" width="120" alt="command-lib icon">
+  <h1>command-lib</h1>
+  <p><strong>Annotation-driven commands for Paper plugins.</strong></p>
+  <p>Runtime registration, typed arguments, subcommands, and async tab completion without large <code>plugin.yml</code> command sections.</p>
+</div>
 
-`command-lib` is a lightweight annotation-based command library for Paper plugins.
-It registers commands directly in Bukkit's `CommandMap`, supports subcommands, argument parsing, and async tab completion without forcing you to keep large `plugin.yml` command sections.
+<p align="center">
+  <a href="https://github.com/thelipe7/command-lib/wiki">📚 Wiki</a>
+  ·
+  <a href="https://github.com/thelipe7/command-lib/issues">🐛 Issues</a>
+  ·
+  <a href="https://github.com/thelipe7/command-lib/blob/main/LICENSE">📄 License</a>
+</p>
 
-## Highlights
+## ✨ Highlights
 
-- Annotation-driven commands
-- Runtime command registration
-- Subcommands and default handlers
-- Built-in argument resolvers for common Bukkit/Paper types
-- Async tab completion support
+- Annotation-based command classes
+- Runtime registration through Bukkit's `CommandMap`
+- Default handlers, subcommands, and unknown fallbacks
+- Built-in argument resolvers for common Paper and Bukkit types
+- Async tab completion support on Paper
 - Custom argument resolvers and custom tab completers
 - Optional and joined arguments
 
-## Requirements
+## ✅ Requirements
 
 - Java 21
-- Tested with Paper `1.21.11`
-- It may also work with other Paper, Spigot, or Bukkit versions, but that compatibility has not been tested or guaranteed
-- If you need support for a specific server version, open an issue
+- Paper `1.21.11`
 
-## Installation
+Other Bukkit-compatible servers or versions may work, but the current codebase targets and documents Paper `1.21.11`.
+
+## 📦 Installation
 
 ### Gradle Kotlin DSL
-
-Add JitPack to your repositories:
 
 ```kotlin
 repositories {
     mavenCentral()
     maven("https://jitpack.io")
 }
-```
 
-Add the dependency:
-
-```kotlin
 dependencies {
     implementation("com.github.thelipe7:command-lib:TAG")
 }
@@ -75,22 +79,23 @@ dependencies {
 
 Replace `TAG` with a Git tag, release version, or commit hash from this repository.
 
-## Quick Start
+## 🚀 Quick Start
 
-Create the manager in your plugin and register your command class:
+Create the manager in your plugin:
 
 ```java
 public final class ExamplePlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        CommandManager commandManager = new CommandManager(this, true);
-        commandManager.registerCommand(new WarpCommand());
+        CommandManager manager = new CommandManager(this, true);
+        manager.registerCommand(new WarpCommand());
     }
+
 }
 ```
 
-Then create a command:
+Then create a command class:
 
 ```java
 import net.thelipe.command.CustomCommand;
@@ -124,72 +129,27 @@ public final class WarpCommand extends CustomCommand {
     public void unknown(CommandSender sender) {
         sender.sendMessage("Unknown subcommand.");
     }
+
 }
 ```
 
-## Argument Annotations
+## 🧭 Documentation
 
-- `@Name("value")`: defines the argument name shown in usage messages
-- `@Optional`: marks the last argument as optional
-- `@Join`: joins the remaining input into one `String`
+The README is intentionally compact. Full documentation lives in the wiki.
 
-Example:
+- [📚 Wiki Home](https://github.com/thelipe7/command-lib/wiki)
+- [⚙️ Installation](https://github.com/thelipe7/command-lib/wiki/Installation)
+- [🚀 Getting Started](https://github.com/thelipe7/command-lib/wiki/Getting-Started)
+- [🧩 Defining Commands](https://github.com/thelipe7/command-lib/wiki/Defining-Commands)
+- [🔎 Arguments and Resolvers](https://github.com/thelipe7/command-lib/wiki/Arguments-and-Resolvers)
+- [⌨️ Tab Completion](https://github.com/thelipe7/command-lib/wiki/Tab-Completion)
+- [🔐 Permissions and Messages](https://github.com/thelipe7/command-lib/wiki/Permissions-and-Messages)
+- [🧪 API Reference](https://github.com/thelipe7/command-lib/wiki/API-Reference)
+- [🛠️ Troubleshooting](https://github.com/thelipe7/command-lib/wiki/Troubleshooting)
 
-```java
-@SubCommand("broadcast")
-public void broadcast(CommandSender sender, @Join @Name("message") String message) {
-    sender.getServer().broadcastMessage(message);
-}
-```
+## 🧠 Built-In Support
 
-## Tab Completion
-
-You can use built-in completions, literal values, or custom completers.
-
-Literal values:
-
-```java
-@SubCommand("gamemode")
-@TabComplete("@players survival|creative|adventure|spectator")
-public void gamemode(CommandSender sender, Player target, GameMode mode) {
-}
-```
-
-Register a custom completer by id:
-
-```java
-CommandManager manager = new CommandManager(this, true);
-manager.registerTabCompleter("@warps", sender -> List.of("spawn", "shop", "pvp"));
-```
-
-Then reference it in a command method:
-
-```java
-@SubCommand("teleport")
-@TabComplete("@warps")
-public void teleport(Player player, String warpName) {
-}
-```
-
-## Custom Argument Resolvers
-
-You can register your own argument parser for any type:
-
-```java
-manager.registerArgumentResolver(MyType.class, (sender, input, argument) -> {
-    MyType value = findMyType(input);
-    if (value == null) {
-        sender.sendMessage("Invalid value.");
-        return new ArgumentResult<>(null, ResultStatus.FAIL);
-    }
-
-    return new ArgumentResult<>(value, ResultStatus.SUCCESS);
-});
-```
-
-## Built-in Argument Support
-
-Out of the box, the library includes resolvers for:
+Built-in argument resolvers include:
 
 - `String`
 - numeric primitives and wrappers
@@ -201,18 +161,51 @@ Out of the box, the library includes resolvers for:
 - `ItemStack`
 - `GameMode`
 
-## Messages
+Built-in tab completion support includes:
 
-Default error messages are customizable through `MessageProvider.setInstance(...)`, so you can replace permission, usage, invalid value, and sender-type messages with your own implementation.
+- `Player`
+- `boolean`
+- `Duration`
+- enums
+- `Enchantment`
+- `ItemStack`
 
-## Issues and Pull Requests
+For implementation details and extension examples, use the wiki:
+
+- [Arguments and Resolvers](https://github.com/thelipe7/command-lib/wiki/Arguments-and-Resolvers)
+- [Tab Completion](https://github.com/thelipe7/command-lib/wiki/Tab-Completion)
+- [API Reference](https://github.com/thelipe7/command-lib/wiki/API-Reference)
+
+## 🏗️ Real-World Usage
+
+The library is already being used in larger plugin codebases with:
+
+- custom argument resolvers for domain objects
+- project-specific tab completers
+- class-level and method-level permission structures
+- manual unknown/help output handlers
+
+That usage pattern is reflected throughout the wiki documentation.
+
+## 🆘 Support
+
+Use the issue templates for:
+
+- `Bug Report` for bugs, incompatibilities, and regressions
+- `Feature Request` for improvements and new ideas
+- `Question` for usage and integration questions
+
+Before opening an issue, check the wiki:
+
+- [Wiki Home](https://github.com/thelipe7/command-lib/wiki)
+- [Troubleshooting](https://github.com/thelipe7/command-lib/wiki/Troubleshooting)
+
+## 🤝 Contributing
 
 Issues and pull requests are welcome.
 
-If you find a bug, want support for a specific Paper, Spigot, or Bukkit version, or want to propose an improvement, open an issue with enough detail to reproduce or evaluate it.
+If you change public behavior, update the relevant wiki page together with the code.
 
-If you want to contribute code, feel free to open a pull request.
+## 📄 License
 
-## License
-
-This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache License 2.0. See [LICENSE](https://github.com/thelipe7/command-lib/blob/main/LICENSE) for details.

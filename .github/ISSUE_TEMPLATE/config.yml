@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: command-lib Wiki
+    url: https://github.com/thelipe7/command-lib/wiki
+    about: Read the full documentation and API guides before opening a support issue.

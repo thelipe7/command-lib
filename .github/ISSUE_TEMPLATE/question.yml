@@ -1,0 +1,43 @@
+name: Question
+description: Ask for help, clarification, or guidance about using the library.
+title: "[Question]: "
+labels:
+  - question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for setup questions, API usage doubts, migration questions, or behavior clarification.
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      description: Ask the question clearly and directly.
+      placeholder: How should I structure a command that has both a default handler and multi-word subcommands?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Share the command design, current approach, or situation behind the question.
+      placeholder: I am building an admin command with /admin ban, /admin mute, and /admin help ...
+    validations:
+      required: true
+  - type: textarea
+    id: code
+    attributes:
+      label: Relevant code
+      description: Paste any code needed to understand the question.
+      render: java
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Server software, version, Java version, and command-lib version if relevant.
+      placeholder: Paper 1.21.11, Java 21, command-lib 1.0.0
+  - type: textarea
+    id: tried
+    attributes:
+      label: What you have already tried
+      description: List anything you already tested or read.

@@ -1,0 +1,49 @@
+name: Feature Request
+description: Propose a new feature, enhancement, or API improvement.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for new features, API changes, built-in resolver ideas, tab completion improvements, or developer-experience enhancements.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or limitation
+      description: What is currently hard, missing, or limiting?
+      placeholder: There is no built-in resolver for OfflinePlayer, which makes common moderation commands repetitive.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the feature you want.
+      placeholder: Add a built-in OfflinePlayer resolver with optional UUID fallback.
+    validations:
+      required: true
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Real-world use case
+      description: Explain how plugin authors would use this feature.
+    validations:
+      required: true
+  - type: textarea
+    id: api_shape
+    attributes:
+      label: Suggested API or syntax
+      description: If you already have an idea for the API, write it here.
+      render: java
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What alternatives or workarounds exist today?
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add examples, references, or related constraints.
