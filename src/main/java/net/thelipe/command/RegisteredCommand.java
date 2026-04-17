@@ -92,13 +92,16 @@ public class RegisteredCommand extends org.bukkit.command.Command {
         for (String name : executorsName) {
             if (joinedLower.equals(name) || joinedLower.startsWith(name + " ")) {
                 CommandExecutor executor = executorsMap.get(name);
-                if (executor.getPermission() != null && !sender.hasPermission(executor.getPermission())) break;
+                if (executor.getPermission() != null && !sender.hasPermission(executor.getPermission())) {
+                    MessageProvider.getInstance().noPermissionSubcommand(sender);
+                    return false;
+                }
 
                 String[] split = CommandUtil.SPACE.split(name);
                 String[] finalArgs = Arrays.copyOfRange(literalArgs, split.length, literalArgs.length);
 
                 executor.execute(sender, label + " " + name, finalArgs);
-                return false;
+                return true;
             }
         }
 
@@ -116,13 +119,13 @@ public class RegisteredCommand extends org.bukkit.command.Command {
 
             if (execute) {
                 defaultExecutor.execute(sender, label, literalArgs);
-                return false;
+                return true;
             }
         }
 
         if (unknownExecutor != null) {
             unknownExecutor.execute(sender, "", new String[] {});
-            return false;
+            return true;
         }
 
         throw new RuntimeException("No executor was found");
